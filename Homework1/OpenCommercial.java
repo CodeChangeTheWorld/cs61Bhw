@@ -2,7 +2,7 @@
 
 import java.net.*;
 import java.io.*;
-
+import java.util.Arrays;
 /**  A class that provides a main function to read five lines of a commercial
  *   Web page and print them in reverse order, given the name of a company.
  */
@@ -27,7 +27,15 @@ class OpenCommercial {
     System.out.flush();        /* Make sure the line is printed immediately. */
     inputLine = keyboard.readLine();
 
-    /* Replace this comment with your solution.  */
-
+    
+    URL urlObj= new URL("http://www.X.com/".replace("X",inputLine));
+    BufferedReader reader = new BufferedReader(new InputStreamReader(urlObj.openStream()));
+    String currentLine;
+    Integer num=4;
+    String[] fiveLines= new String[5];
+    while ((currentLine = reader.readLine()) != null && num>-1)
+          { fiveLines[num]=currentLine + "\n"; 
+            num=num-1;}
+    System.out.println(Arrays.toString(fiveLines));
   }
 }
