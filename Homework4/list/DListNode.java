@@ -1,6 +1,6 @@
 /* DListNode.java */
 
-package list;
+
 
 /**
  *  A DListNode is a node in a DList (doubly-linked list).

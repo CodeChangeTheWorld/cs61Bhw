@@ -1,6 +1,6 @@
 /* DList.java */
 
-package list;
+
 
 /**
  *  A DList is a mutable doubly-linked list ADT.  Its implementation is
@@ -52,6 +52,10 @@ public class DList {
    */
   public DList() {
     //  Your solution here.
+    head = newNode(null,null,null);
+    head.prev = head;
+    head.next= head;
+    size=0;
   }
 
   /**
@@ -79,6 +83,13 @@ public class DList {
    */
   public void insertFront(Object item) {
     // Your solution here.
+      DListNode newNode = newNode(item,null,null);
+      DListNode front = front();
+      newNode.next = front;
+      newNode.prev = head;
+      front.prev = newNode;     
+      head.next = newNode;
+      size+=1;
   }
 
   /**
@@ -87,7 +98,13 @@ public class DList {
    *  Performance:  runs in O(1) time.
    */
   public void insertBack(Object item) {
-    // Your solution here.
+      DListNode newNode = newNode(item,null,null);
+      DListNode back = back();
+      newNode.prev = back;
+      newNode.next = head;
+      back.next = newNode;
+      head.prev = newNode;
+      size+=1;
   }
 
   /**
@@ -101,6 +118,7 @@ public class DList {
    */
   public DListNode front() {
     // Your solution here.
+    return head.next;
   }
 
   /**
@@ -114,6 +132,7 @@ public class DList {
    */
   public DListNode back() {
     // Your solution here.
+    return head.prev;
   }
 
   /**
@@ -128,6 +147,7 @@ public class DList {
    */
   public DListNode next(DListNode node) {
     // Your solution here.
+    return node.next;
   }
 
   /**
@@ -141,29 +161,50 @@ public class DList {
    *  Performance:  runs in O(1) time.
    */
   public DListNode prev(DListNode node) {
-    // Your solution here.
+    // Your solution here. DNodeList node = newNode(item,null,null);
+    return node.prev;
   }
 
   /**
-   *  insertAfter() inserts an item in this DList immediately following "node".
+   *  insertBack() inserts an item in this DList immediately following "node".
    *  If "node" is null, do nothing.
    *  @param item the item to be inserted.
    *  @param node the node to insert the item after.
    *  Performance:  runs in O(1) time.
    */
-  public void insertAfter(Object item, DListNode node) {
+  protected DListNode findNode(Object item){
+    DListNode node = front();
+    while(node != head){
+      if(node.item.equals(item)) return node;
+     node = node.next;
+    }
+    return null;
+  }
+
+  public void insertBack(Object item, DListNode node) {
     // Your solution here.
+    if (node ==null || findNode(node.item) == null) System.exit(0);
+    DListNode newNode = newNode(item, node,node.next);
+    node.next.prev = newNode;
+    node.next = newNode;
+    size++;
   }
 
   /**
-   *  insertBefore() inserts an item in this DList immediately before "node".
+   *  insertFront() inserts an item in this DList immediately before "node".
    *  If "node" is null, do nothing.
    *  @param item the item to be inserted.
    *  @param node the node to insert the item before.
    *  Performance:  runs in O(1) time.
    */
-  public void insertBefore(Object item, DListNode node) {
+  public void insertFront(Object item, DListNode node) {
     // Your solution here.
+     // Your solution here.
+    if (node ==null || findNode(node.item) == null) System.exit(0);
+    DListNode newNode = newNode(item, node.prev,node);
+    node.prev.next = newNode;
+    node.prev =newNode;
+    size++;
   }
 
   /**
@@ -172,6 +213,14 @@ public class DList {
    */
   public void remove(DListNode node) {
     // Your solution here.
+    if (node ==null || findNode(node.item) == null) System.exit(0);
+    DListNode before = node.prev;
+    DListNode after = node.next;
+    before.next = after;
+    after.prev = before;
+    node.prev = null ;
+    node.next =null;
+    size--;
   }
 
   /**
@@ -191,4 +240,5 @@ public class DList {
     }
     return result + "]";
   }
+  
 }
